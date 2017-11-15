@@ -65,19 +65,15 @@ static int xmp_readdir(const char *path, void *buf, fuse_fill_dir_t filler, off_
 static int xmp_read(const char *path, char *buf, size_t size, off_t offset, struct fuse_file_info *fi)
 {
 	char fpath[1000];
-	char newFile[100];
-	  //sama seperti di get atrribute, cuma ini buat bisa untuk di read berdasarkan nama aslinya
+	 //sama seperti di get atrribute, cuma ini buat bisa untuk di read berdasarkan nama aslinya
 
 	if(strcmp(path,"/") == 0)
 	{
-		memcpy(newFile, path, strlen(path));
 		path=dirpath;
 		sprintf(fpath,"%s",newFile);
 	}
 	else {
-		memcpy(newFile, path, strlen(path) - 4);
-		newFile[strlen(path) - 4] = '\0';
-		sprintf(fpath, "%s%s",dirpath,newFile);
+		sprintf(fpath, "%s%s",dirpath,path);
 	}
 
 	int res = 0;
