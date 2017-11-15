@@ -8,9 +8,11 @@
 #include <errno.h>
 #include <sys/time.h>
 
-
+//alamat file system yang akan di mount
 static const char *dirpath = "/home/v28cyber/Documents";
 
+/*fungsi untuk mengambil atribut. fungsi ini akan dipanggil
+setiap fungsi xmp readdir membaca isi direktori*/
 static int xmp_getattr(const char *path, struct stat *stbuf)
 
 {
@@ -20,6 +22,10 @@ static int xmp_getattr(const char *path, struct stat *stbuf)
 	char newFile[100];
 
   	printf("path   : %s, len: %d\n", path, strlen(path));
+
+	//ini untuk membaca nama file aslinya (tanpa ekstensi .bak)
+	/*dia akan memodifikasi isi dari path(yang sebelumnya ada .bak nya)
+	jadi nama asli file (tidak ada .bak nya) supaya bisa di get attribute*/
 
 	if (strcmp(path, "/") != 0) {
 		memcpy(newFile, path, strlen(path) - 4);
