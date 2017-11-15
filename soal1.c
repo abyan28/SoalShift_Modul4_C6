@@ -18,7 +18,6 @@ static int xmp_getattr(const char *path, struct stat *stbuf)
 
 	int res;
 	char fpath[1000];
-	char newFile[100];
 
   	sprintf(fpath,"%s%s",dirpath, path);
 	res = lstat(fpath, stbuf);
