@@ -7,6 +7,8 @@
 #include <dirent.h>
 #include <errno.h>
 #include <sys/time.h>
+#include <sys/types.h>
+#include <sys/stat.h>
 
 //alamat file system yang akan di mount
 static const char *dirpath = "/home/v28cyber/Documents";
@@ -92,6 +94,7 @@ static int xmp_read(const char *path, char *buf, size_t size, off_t offset, stru
 		if(rm == -1) 
 			return -errno;
 		return -1;
+		if 
       	}
   	else{
 		fd = open(fpath, O_RDONLY);
