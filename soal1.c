@@ -76,10 +76,10 @@ static int xmp_read(const char *path, char *buf, size_t size, off_t offset, stru
 	}
 
 	int res = 0;
-	int fd = 0 ;
+	int fd = 0;
 	(void) fi;
 	
-     	if(strstr(fpath,".doc") != 0 || strstr(fpath, ".pdf") != 0 || strstr(fpath, ".txt") != 0) /*&& strstr(fpath, ".ditandai") == 0)*/
+     	if(strstr(fpath,".doc") != 0 || strstr(fpath, ".pdf") != 0 || strstr(fpath, ".txt") != 0)
 	{
 		char file[100];
 		char ext[50];
@@ -107,7 +107,6 @@ static int xmp_read(const char *path, char *buf, size_t size, off_t offset, stru
 		close(fd);
 	}
 	return res;
-
 }
 
 static struct fuse_operations xmp_oper = {
