@@ -84,7 +84,7 @@ static int xmp_read(const char *path, char *buf, size_t size, off_t offset, stru
      	if(strcmp(end,".doc") == 0 || strcmp(end, ".pdf") == 0 || strcmp(end, ".txt") == 0 )
 	{
 		char file[50];
-		char ext[10];
+		//char ext[10];
 		int rm;
 		strcat(file, fpath);
 		strcat(file, ".ditandai");
