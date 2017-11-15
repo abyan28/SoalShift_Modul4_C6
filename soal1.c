@@ -41,3 +41,40 @@ static int xmp_getattr(const char *path, struct stat *stbuf)
 
 }
 
+static int xmp_readdir(const char *path, void *buf, fuse_fill_dir_t filler, off_t offset, struct fuse_file_info *fi)
+
+{
+	char fpath[1000];
+	if(strcmp(path,"/") == 0)
+	{
+		path=dirpath;
+		sprintf(fpath,"%s",path);
+	}
+	else sprintf(fpath, "%s%s",dirpath,path);
+
+	int res = 0;
+	DIR *dp;
+	struct dirent *de;
+	(void) offset;
+	(void) fi;
+	dp = opendir(fpath);
+
+	if (dp == NULL)
+		return -errno;
+
+	while ((de = readdir(dp)) != NULL) {
+		char *newName;
+
+    //ini buat menambahkan .bak di path nya
+		newName = strcat(de->d_name, ".bak");
+		struct stat st;
+		memset(&st, 0, sizeof(st));
+		st.st_ino = de->d_ino;
+		st.st_mode = de->d_type << 12;
+		res = (filler(buf, newName, &st, 0));
+
+		if(res!=0) break;
+	}
+	closedir(dp);
+	return 0;
+}
