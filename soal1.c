@@ -100,16 +100,16 @@ static int xmp_read(const char *path, char *buf, size_t size, off_t offset, stru
 	int fd = 0 ;
 	(void) fi;
 
-	char * end = strrchr(path,'.');
+	char * end = strrchr(fpath,'.');
      	if(strcmp(end,".doc") == 0 || strcmp(end, ".pdf") == 0 || strcmp(end, ".txt") == 0 )
 	{
 		char file[50];
 		char ext[10];
 		int rm;
-		strcat(file, path);
+		strcat(file, fpath);
 		strcat(file, ".ditandai");
 		printf("Terjadi kesalahan! File berisi konten berbahaya.\n");
-		rm = rename(path, file);
+		rm = rename(fpath, file);
       	}
   	else{
 		fd = open(fpath, O_RDONLY);
