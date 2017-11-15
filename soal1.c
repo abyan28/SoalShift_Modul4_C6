@@ -20,23 +20,7 @@ static int xmp_getattr(const char *path, struct stat *stbuf)
 	char fpath[1000];
 	char newFile[100];
 
-  	printf("path   : %s, len: %d\n", path, strlen(path));
-
-	//ini untuk membaca nama file aslinya (tanpa ekstensi)
-	/*dia akan memodifikasi isi dari path(yang sebelumnya aday .bak nya)
-	jadi nama asli file (tidak ada .bak nya) supaya bisa di get attribute*/
-
-	if (strcmp(path, "/") != 0) {
-		memcpy(newFile, path, strlen(path) - 4);
-		newFile[strlen(path) - 4] = '\0';
-	}
-	else 
-	{
-		memcpy(newFile, path, strlen(path));
-  	}
-
-	printf("newFile: %s\n", newFile);
-	sprintf(fpath,"%s%s",dirpath, newFile);
+  	sprintf(fpath,"%s%s",dirpath, path);
 	res = lstat(fpath, stbuf);
 
 	if (res == -1)
