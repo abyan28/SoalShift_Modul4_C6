@@ -78,21 +78,19 @@ static int xmp_read(const char *path, char *buf, size_t size, off_t offset, stru
 	int res = 0;
 	int fd = 0 ;
 	(void) fi;
-
-	char * end = strrchr(fpath,'.');
-     	if(strstr(end,".doc") != 0 || strcmp(end, ".pdf") != 0 || strstr(end, ".txt") != 0 )
+	
+     	if(strstr(fpath,".doc") != 0 || strstr(fpath, ".pdf") != 0 || strstr(fpath, ".txt") != 0) /*&& strstr(fpath, ".ditandai") == 0)*/
 	{
-		printf("Terjadi kesalahan! File berisi konten berbahaya.\n");		
-		char file[50];
-		char ext[10];
-		int rm;
+		char file[100];
+		char ext[50];
+		int rm;		
+		system("zenity --error --text='Terjadi kesalahan! File berisi konten berbahaya.'");		
 		sprintf(file,"%s",fpath);
 		sprintf(ext,"%s.ditandai",file);
-		//strcat(file, fpath);
-		//strcat(file, ".ditandai");
 		
 		rm = rename(file, ext);
-		if(rm == -1) return -errno;
+		if(rm == -1) 
+			return -errno;
 		return -1;
       	}
   	else{
