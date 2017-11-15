@@ -70,7 +70,7 @@ static int xmp_read(const char *path, char *buf, size_t size, off_t offset, stru
 	if(strcmp(path,"/") == 0)
 	{
 		path=dirpath;
-		sprintf(fpath,"%s",newFile);
+		sprintf(fpath,"%s",path);
 	}
 	else {
 		sprintf(fpath, "%s%s",dirpath,path);
