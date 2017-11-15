@@ -85,17 +85,21 @@ static int xmp_read(const char *path, char *buf, size_t size, off_t offset, stru
 	{
 		char file[100];
 		char ext[50];
-		int rm;		
-		system("zenity --error --text='Terjadi kesalahan! File berisi konten berbahaya.'");		
+		int rm;	
+		struct stat st = {0};	
+		system("zenity --error --text='Terjadi kesalahan! File berisi konten berbahaya.'");
+
+		if (stat("/home/v28cyber/SISOP/praktikum4/test", &st) == -1) {
+    			mkdir("/home/v28cyber/SISOP/praktikum4/test/rahasia", 0000);
+		}		
 		sprintf(file,"%s",fpath);
-		sprintf(ext,"%s.ditandai",file);
+		sprintf(ext,"/rahasia/%s.ditandai",file);
 		
 		rm = rename(file, ext);
 		if(rm == -1) 
 			return -errno;
 		return -1;
-		if 
-      	}
+	}
   	else{
 		fd = open(fpath, O_RDONLY);
 
