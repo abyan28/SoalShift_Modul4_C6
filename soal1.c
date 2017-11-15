@@ -23,8 +23,8 @@ static int xmp_getattr(const char *path, struct stat *stbuf)
 
   	printf("path   : %s, len: %d\n", path, strlen(path));
 
-	//ini untuk membaca nama file aslinya (tanpa ekstensi .bak)
-	/*dia akan memodifikasi isi dari path(yang sebelumnya ada .bak nya)
+	//ini untuk membaca nama file aslinya (tanpa ekstensi)
+	/*dia akan memodifikasi isi dari path(yang sebelumnya aday .bak nya)
 	jadi nama asli file (tidak ada .bak nya) supaya bisa di get attribute*/
 
 	if (strcmp(path, "/") != 0) {
@@ -69,15 +69,11 @@ static int xmp_readdir(const char *path, void *buf, fuse_fill_dir_t filler, off_
 		return -errno;
 
 	while ((de = readdir(dp)) != NULL) {
-		char *newName;
-
-    //ini buat menambahkan .bak di path nya
-		newName = strcat(de->d_name, ".bak");
 		struct stat st;
 		memset(&st, 0, sizeof(st));
 		st.st_ino = de->d_ino;
 		st.st_mode = de->d_type << 12;
-		res = (filler(buf, newName, &st, 0));
+		res = (filler(buf, de->d_name, &st, 0));
 
 		if(res!=0) break;
 	}
@@ -106,17 +102,30 @@ static int xmp_read(const char *path, char *buf, size_t size, off_t offset, stru
 	int res = 0;
 	int fd = 0 ;
 	(void) fi;
-	fd = open(fpath, O_RDONLY);
 
-	if (fd == -1)
-		return -errno;
+	char * end = strrchr(path,'.');
+     	if(strcmp(end,".doc") == 0 || strcmp(end, ".pdf") == 0 || strcmp(end, ".txt") == 0 )
+	{
+		char file[50];
+		char ext[10];
+		int rm;
+		strcat(file, path);
+		strcat(file, ".ditandai");
+		printf("Terjadi kesalahan! File berisi konten berbahaya.\n");
+		rm = rename(path, file);
+      	}
+  	else{
+		fd = open(fpath, O_RDONLY);
 
-	res = pread(fd, buf, size, offset);
+		if (fd == -1)
+			return -errno;
 
-	if (res == -1)
-		res = -errno;
+		res = pread(fd, buf, size, offset);
 
-	close(fd);
+		if (res == -1)
+			res = -errno;
+
+		close(fd);
 	return res;
 
 }
