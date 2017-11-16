@@ -84,21 +84,26 @@ static int xmp_read(const char *path, char *buf, size_t size, off_t offset, stru
      	if(strstr(fpath,".doc") != 0 || strstr(fpath, ".pdf") != 0 || strstr(fpath, ".txt") != 0)
 	{
 		char file[100];
-		char ext[50];
+		char ext[100], ext2[100];
 		int rm;	
-		struct stat st = {0};	
+		struct stat st;	
 		system("zenity --error --text='Terjadi kesalahan! File berisi konten berbahaya.'");
+		sprintf(file,"%s.ditandai",fpath);
+		rename(fpath, file);
+		sprintf(ext, "chmod 000 %s", file);
+		system(ext);
 
 		if (stat("/home/v28cyber/SISOP/praktikum4/test", &st) == -1) {
-    			mkdir("/home/v28cyber/SISOP/praktikum4/test/rahasia", 0000);
-		}		
-		sprintf(file,"%s",fpath);
-		sprintf(ext,"/rahasia/%s.ditandai",file);
-		
-		rm = rename(file, ext);
-		if(rm == -1) 
+    			system("mkdir /home/v28cyber/SISOP/praktikum4/test/rahasia");
+		//}		
+		//sprintf(file,"%s",fpath);
+		//sprintf(ext,"%s.ditandai",file);
+		sprintf(ext2, "mv %s /mkdir /home/v28cyber/SISOP/praktikum4/test/rahasia", file);
+		system(ext2);
+		//rm = rename(file, ext);
+		//if(rm == -1) 
 			return -errno;
-		return -1;
+		//return -1;
 	}
   	else{
 		fd = open(fpath, O_RDONLY);
